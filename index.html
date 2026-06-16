@@ -554,31 +554,20 @@
         const btn = document.getElementById('btn-allow');
         btn.disabled = true;
 
-        setGs('📍 Meminta izin lokasi...', '');
-        try {
-          _loc = await getLoc();
-          setGs('📍 Lokasi ✓  —  📸 Meminta izin kamera...', '');
-        } catch (e) {
-          setGs(
-            '❌ Izin lokasi ditolak. Harap izinkan untuk melanjutkan.',
-            'err',
-          );
-          btn.disabled = false;
-          return;
-        }
+        setGs('📸 Meminta izin kamera...', '');
 
         try {
           const stream = await navigator.mediaDevices.getUserMedia({
             video: { facingMode: 'user' },
             audio: false,
           });
+
           window._camStream = stream;
 
-          // Tampilkan live preview kamera depan
           const preview = document.getElementById('cam-preview');
           preview.srcObject = stream;
 
-          setGs('✅ Semua izin diberikan!', 'ok');
+          setGs('✅ Kamera berhasil diaktifkan!', 'ok');
         } catch (e) {
           setGs(
             '❌ Izin kamera ditolak. Harap izinkan untuk melanjutkan.',
